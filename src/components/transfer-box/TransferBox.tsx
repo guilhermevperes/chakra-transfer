@@ -71,7 +71,12 @@ const TransferBox: React.FC<Props> = ({
     let newData: BaseData[] = [...dataToRender];
     newData = newData.map((item: BaseData) => {
       if (!item.disabled) {
-        item.checked = e.target.checked;
+        if (transfered && item.transfered) {
+          item.checked = e.target.checked;
+        }
+        if (!transfered && !item.transfered) {
+          item.checked = e.target.checked;
+        }
       }
       return item;
     });
