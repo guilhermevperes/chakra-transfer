@@ -109,6 +109,7 @@ const TransferBox: React.FC<Props> = ({
       alignItems="center"
       h="100%"
       p="4px"
+      overflow="hidden"
     >
       {title && <Text>{title}</Text>}
       <Box
@@ -119,10 +120,19 @@ const TransferBox: React.FC<Props> = ({
         alignItems="flex-start"
         p="6px"
       >
-        <Stack spacing={3}>
+        <Stack spacing={3} overflow="hidden">
           <Checkbox onChange={selectAll}>Select All</Checkbox>
           {filter && renderInput()}
-          {handleItems()}
+          <Box
+            overflowY="auto"
+            w="100%"
+            h="100%"
+            display="flex"
+            flexDirection="column"
+            alignItems="flex-start"
+          >
+            {handleItems()}
+          </Box>
         </Stack>
       </Box>
     </Box>

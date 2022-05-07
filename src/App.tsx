@@ -43,6 +43,60 @@ const App: React.FC<Props> = ({}) => {
       transfered: false,
       disabled: true,
     },
+    {
+      id: 7,
+      label: "Hanburger",
+      value: "hanburger",
+      transfered: false,
+    },
+    {
+      id: 7,
+      label: "Tomato",
+      value: "tomato",
+      transfered: false,
+    },
+    {
+      id: 8,
+      label: "Tomato",
+      value: "tomato",
+      transfered: false,
+    },
+    {
+      id: 9,
+      label: "Salad",
+      value: "salad",
+      transfered: false,
+    },
+    {
+      id: 10,
+      label: "Rice",
+      value: "rice",
+      transfered: false,
+    },
+    {
+      id: 11,
+      label: "Beans",
+      value: "beans",
+      transfered: false,
+    },
+    {
+      id: 11,
+      label: "Beans",
+      value: "beans",
+      transfered: false,
+    },
+    {
+      id: 11,
+      label: "Beans",
+      value: "beans",
+      transfered: false,
+    },
+    {
+      id: 11,
+      label: "Beans",
+      value: "beans",
+      transfered: false,
+    },
   ]);
 
   useEffect(() => {
