@@ -1,45 +1,63 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { Box } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import Transfer from "./components/transfer/Transfer";
+import BaseData from "./types/BaseData";
 
-function App() {
-  const [count, setCount] = useState(0)
+export type Props = {};
+
+const App: React.FC<Props> = ({}) => {
+  const [data, setData] = useState<BaseData[]>([
+    {
+      id: 1,
+      label: "Chocolate",
+      value: "chocolate",
+      disabled: true,
+    },
+    {
+      id: 2,
+      label: "Banana",
+      value: "banana",
+    },
+    {
+      id: 3,
+      label: "Egg",
+      value: "egg",
+      transfered: true,
+    },
+    {
+      id: 4,
+      label: "Blueberry",
+      value: "blueberry",
+      transfered: true,
+    },
+    {
+      id: 5,
+      label: "Apple",
+      value: "apple",
+      transfered: false,
+    },
+    {
+      id: 6,
+      label: "Pancake",
+      value: "pancake",
+      transfered: false,
+      disabled: true,
+    },
+  ]);
+
+  useEffect(() => {
+    console.log("data :>> ", data);
+  }, [data]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
-}
+    <Transfer
+      data={data}
+      setData={setData}
+      title1="Não selecionado"
+      title2="Selecionado"
+      maxW="800px"
+    ></Transfer>
+  );
+};
 
-export default App
+export default App;
