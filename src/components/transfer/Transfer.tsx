@@ -16,13 +16,11 @@ const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
   const handleTransfer = (transfer?: boolean) => {
     let newData: BaseData[] = [...data];
     newData = newData.map((item: BaseData, i) => {
-      if (item.selected && transfer) {
+      if (item.checked && transfer) {
         item.transfered = true;
-        item.selected = true;
       }
-      if (item.selected && !transfer) {
+      if (item.checked && !transfer) {
         item.transfered = false;
-        item.selected = true;
       }
       return item;
     });

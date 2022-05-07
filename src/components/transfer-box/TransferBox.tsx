@@ -30,13 +30,13 @@ const TransferBox: React.FC<Props> = ({
 
   useEffect(() => {
     setDataToRender(data);
-  }, []);
+  }, [data]);
 
   const handleState = (e: any, item: BaseData, i: any) => {
     const newData: BaseData[] = [...data];
     const ids: number[] = newData.map((data) => data.id);
     const index = ids.indexOf(item.id);
-    newData[index].selected = e.target.checked;
+    newData[index].checked = e.target.checked;
     setData(newData);
   };
 
@@ -47,8 +47,8 @@ const TransferBox: React.FC<Props> = ({
     return itemsToTransfer.map((item: BaseData, i) => (
       <Box key={i}>
         <Checkbox
-          defaultIsChecked={item.selected}
-          isChecked={item.selected}
+          defaultIsChecked={item.checked}
+          isChecked={item.checked}
           onChange={(e) => handleState(e, item, i)}
           disabled={item.disabled}
         >
@@ -64,6 +64,17 @@ const TransferBox: React.FC<Props> = ({
       (item: BaseData) =>
         item.label.toLowerCase().search(name.toLowerCase()) !== -1
     );
+    setDataToRender(newData);
+  };
+
+  const selectAll = (e: any) => {
+    let newData: BaseData[] = [...dataToRender];
+    newData = newData.map((item: BaseData) => {
+      if (!item.disabled) {
+        item.checked = e.target.checked;
+      }
+      return item;
+    });
     setDataToRender(newData);
   };
 
@@ -104,6 +115,7 @@ const TransferBox: React.FC<Props> = ({
         p="6px"
       >
         <Stack spacing={3}>
+          <Checkbox onChange={selectAll}>Select All</Checkbox>
           {filter && renderInput()}
           {handleItems()}
         </Stack>
