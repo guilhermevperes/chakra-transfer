@@ -22,6 +22,10 @@ const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
       if (item.checked && !transfer) {
         item.transfered = false;
       }
+      if (!item.checked) {
+        item.checked = false;
+      }
+
       return item;
     });
     setData(newData);
