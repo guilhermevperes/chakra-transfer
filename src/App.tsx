@@ -12,7 +12,7 @@ const App: React.FC<Props> = ({}) => {
       id: 1,
       label: "Chocolate",
       value: "chocolate",
-      disabled: false,
+      disabled: true,
       transfered: true,
     },
     {

@@ -19,6 +19,7 @@ export type Props = {
 
 const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
   const [disabled, setDisabled] = useState<boolean>(false);
+  const [firstDisable, setFirstDisable] = useState<boolean>(false);
 
   const [transferButtonDisabled, setTransferButtonDisabled] =
     useState<boolean>(true);
@@ -35,12 +36,14 @@ const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
   }, [data]);
 
   useEffect(() => {
-    console.log("teste");
     let newData: BaseData[] = [...data];
-    newData = newData.map((item: BaseData) => {
-      item.disabled = disabled;
-      return item;
-    });
+    if (firstDisable) {
+      newData = newData.map((item: BaseData) => {
+        item.disabled = disabled;
+
+        return item;
+      });
+    }
     setData(newData);
   }, [disabled]);
 
@@ -89,7 +92,7 @@ const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
         setData={setData}
         filter
         extraActions
-        isLoading
+        // isLoading
       ></TransferBox>
       <Box display="flex" flexDirection="column">
         <Button m="6px" onClick={() => handleTransfer(true, true)}>
@@ -122,7 +125,13 @@ const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
       ></TransferBox>
       <Box>
         <Text>Disabled all</Text>
-        <Switch id="email-alerts" onChange={() => setDisabled(!disabled)} />
+        <Switch
+          id="email-alerts"
+          onChange={() => {
+            setDisabled(!disabled);
+            setFirstDisable(true);
+          }}
+        />
       </Box>
     </Box>
   );

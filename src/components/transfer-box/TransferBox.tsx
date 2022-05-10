@@ -121,12 +121,22 @@ const TransferBox: React.FC<Props> = ({
       <Box
         key={i}
         // ref={getItemRef}
+        w="100%"
+        h="45px"
+        padding="12px"
+        border="1px solid"
+        borderColor="gray.400"
+        borderRadius={6}
+        _hover={{ bg: "gray.100" }}
       >
         <Checkbox
           defaultIsChecked={item.checked}
           isChecked={item.checked}
           onChange={(e) => handleState(e, item, i)}
           disabled={item.disabled}
+          w="100%"
+          h="100%"
+          color="gray.800"
         >
           {item.label}
         </Checkbox>
@@ -208,7 +218,7 @@ const TransferBox: React.FC<Props> = ({
             <Checkbox onChange={selectAll}>Select All</Checkbox>
             {filter && renderInput()}
             {extraActions && renderExtraOptions()}
-            <Box
+            <Stack
               overflowY="auto"
               w="100%"
               h="100%"
@@ -224,7 +234,7 @@ const TransferBox: React.FC<Props> = ({
               ) : (
                 <Text>Empty State</Text>
               )}
-            </Box>
+            </Stack>
           </Stack>
         </Box>
       </Box>
