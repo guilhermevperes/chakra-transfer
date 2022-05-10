@@ -17,6 +17,7 @@ export type Props = {
   setData: React.Dispatch<React.SetStateAction<BaseData[]>>;
   transfered?: boolean;
   filter?: boolean;
+  paginated?: boolean;
 };
 
 const TransferBox: React.FC<Props> = ({
@@ -25,8 +26,10 @@ const TransferBox: React.FC<Props> = ({
   setData,
   transfered,
   filter,
+  paginated,
 }) => {
   const [dataToRender, setDataToRender] = useState<BaseData[]>([]);
+  const [allDataToRender, setAllDataToRender] = useState<BaseData[]>([]);
 
   useEffect(() => {
     setDataToRender(data);
@@ -45,7 +48,10 @@ const TransferBox: React.FC<Props> = ({
       transfered ? item.transfered : !item.transfered
     );
     return itemsToTransfer.map((item: BaseData, i) => (
-      <Box key={i}>
+      <Box
+        key={i}
+        // ref={getItemRef}
+      >
         <Checkbox
           defaultIsChecked={item.checked}
           isChecked={item.checked}
@@ -102,41 +108,96 @@ const TransferBox: React.FC<Props> = ({
     <Box
       d="flex"
       minWidth="90px"
-      flex="0.4"
       border="1px solid black"
       display="flex"
       flexDirection="column"
       alignItems="center"
       h="100%"
-      p="4px"
       overflow="hidden"
+      flex="0.4"
     >
-      {title && <Text>{title}</Text>}
       <Box
-        w="100%"
-        h="100%"
+        d="flex"
+        border="1px solid black"
         display="flex"
         flexDirection="column"
-        alignItems="flex-start"
-        p="6px"
+        alignItems="center"
+        h="100%"
+        p="4px"
+        overflow="hidden"
       >
-        <Stack spacing={3} overflow="hidden">
-          <Checkbox onChange={selectAll}>Select All</Checkbox>
-          {filter && renderInput()}
-          <Box
-            overflowY="auto"
-            w="100%"
-            h="100%"
-            display="flex"
-            flexDirection="column"
-            alignItems="flex-start"
-          >
-            {handleItems()}
-          </Box>
-        </Stack>
+        {title && <Text>{title}</Text>}
+        <Box
+          w="100%"
+          h="100%"
+          display="flex"
+          flexDirection="column"
+          alignItems="flex-start"
+          p="6px"
+        >
+          <Stack spacing={3} overflow="hidden" height="100%">
+            <Checkbox onChange={selectAll}>Select All</Checkbox>
+            {filter && renderInput()}
+            <Box
+              overflowY="auto"
+              w="100%"
+              h="100%"
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-start"
+              // ref={getListRef}
+            >
+              {handleItems()}
+            </Box>
+          </Stack>
+        </Box>
       </Box>
+      {/* {paginated && (
+        <Box>
+        <ChevronLeftIcon
+        onClick={() => setCurrentPage(currentPage - 1)}
+        cursor="pointer"
+        ></ChevronLeftIcon>
+        {currentPage}/{totalPages}
+        <ChevronRightIcon
+        onClick={() => setCurrentPage(currentPage + 1)}
+        cursor="pointer"
+        ></ChevronRightIcon>
+        </Box>
+      )} */}
     </Box>
   );
 };
 
 export default TransferBox;
+
+//PAGINATED LOGIC
+
+// const getListRef = (element: HTMLDivElement) => {
+//   setListHeight(element?.getBoundingClientRect().height);
+// };
+
+// const getItemRef = (element: HTMLDivElement) => {
+//   setItemHeigh(element?.getBoundingClientRect().height);
+// };
+
+// const [listHeight, setListHeight] = useState<number>(0);
+// const [itemHeight, setItemHeigh] = useState<number>(0);
+
+// const [currentPage, setCurrentPage] = useState<number>(1);
+// const [totalPages, setTotalPages] = useState<number>(1);
+// useEffect(() => {
+//   if (paginated && itemHeight > 0) {
+//     setAllDataToRender(dataToRender);
+//     let newData: BaseData[] = dataToRender.filter((item: BaseData) =>
+//       transfered ? item.transfered : !item.transfered
+//     );
+//     setTotalPages(
+//       Math.ceil(newData.length / (Math.floor(listHeight / itemHeight) - 1))
+//     );
+
+//     newData = newData.splice(0, Math.floor(listHeight / itemHeight) - 1);
+//     setDataToRender(newData);
+//     console.log("listHeight :>> ", Math.floor(listHeight / itemHeight) - 1);
+//   }
+// }, [listHeight, currentPage]);

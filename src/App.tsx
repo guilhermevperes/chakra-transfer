@@ -11,7 +11,8 @@ const App: React.FC<Props> = ({}) => {
       id: 1,
       label: "Chocolate",
       value: "chocolate",
-      disabled: true,
+      disabled: false,
+      transfered: true,
     },
     {
       id: 2,
@@ -57,8 +58,8 @@ const App: React.FC<Props> = ({}) => {
     },
     {
       id: 8,
-      label: "Tomato",
-      value: "tomato",
+      label: "Onion",
+      value: "onion",
       transfered: false,
     },
     {
@@ -80,21 +81,21 @@ const App: React.FC<Props> = ({}) => {
       transfered: false,
     },
     {
-      id: 11,
-      label: "Beans",
-      value: "beans",
+      id: 12,
+      label: "Juice",
+      value: "juice",
       transfered: false,
     },
     {
-      id: 11,
-      label: "Beans",
-      value: "beans",
+      id: 12,
+      label: "Strawberry",
+      value: "strawberry",
       transfered: false,
     },
     {
-      id: 11,
-      label: "Beans",
-      value: "beans",
+      id: 13,
+      label: "Watermelon",
+      value: "watermelon",
       transfered: false,
     },
   ]);
