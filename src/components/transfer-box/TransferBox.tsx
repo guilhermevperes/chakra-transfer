@@ -1,10 +1,15 @@
-import { SearchIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, SearchIcon } from "@chakra-ui/icons";
 import {
   Box,
+  Button,
   Checkbox,
   Input,
   InputGroup,
   InputLeftElement,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -18,6 +23,7 @@ export type Props = {
   transfered?: boolean;
   filter?: boolean;
   paginated?: boolean;
+  extraActions?: boolean;
 };
 
 const TransferBox: React.FC<Props> = ({
@@ -27,6 +33,7 @@ const TransferBox: React.FC<Props> = ({
   transfered,
   filter,
   paginated,
+  extraActions,
 }) => {
   const [dataToRender, setDataToRender] = useState<BaseData[]>([]);
   const [allDataToRender, setAllDataToRender] = useState<BaseData[]>([]);
@@ -89,6 +96,18 @@ const TransferBox: React.FC<Props> = ({
     setDataToRender(newData);
   };
 
+  const invertSelection = () => {
+    let newData: BaseData[] = [...dataToRender];
+    newData = newData.map((item: BaseData) => {
+      if (!item.disabled) {
+        item.checked = !item.checked;
+      }
+      return item;
+    });
+
+    setDataToRender(newData);
+  };
+
   const renderInput = () => {
     return (
       <InputGroup>
@@ -101,6 +120,19 @@ const TransferBox: React.FC<Props> = ({
           onChange={(e) => filterData(e.target.value)}
         ></Input>
       </InputGroup>
+    );
+  };
+
+  const renderExtraOptions = () => {
+    return (
+      <Menu>
+        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+          Actions
+        </MenuButton>
+        <MenuList>
+          <Button onClick={invertSelection}>Invert selection</Button>
+        </MenuList>
+      </Menu>
     );
   };
 
@@ -138,6 +170,7 @@ const TransferBox: React.FC<Props> = ({
           <Stack spacing={3} overflow="hidden" height="100%">
             <Checkbox onChange={selectAll}>Select All</Checkbox>
             {filter && renderInput()}
+            {extraActions && renderExtraOptions()}
             <Box
               overflowY="auto"
               w="100%"
