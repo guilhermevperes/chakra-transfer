@@ -108,6 +108,22 @@ const TransferBox: React.FC<Props> = ({
     setDataToRender(newData);
   };
 
+  const sort = () => {
+    let newData: BaseData[] = [...data];
+
+    newData = newData.sort((a: BaseData, b: BaseData) => {
+      if (a.label < b.label) {
+        return -1;
+      }
+      if (a.label > b.label) {
+        return 1;
+      }
+      return 0;
+    });
+
+    setDataToRender(newData);
+  };
+
   const renderInput = () => {
     return (
       <InputGroup>
@@ -131,6 +147,7 @@ const TransferBox: React.FC<Props> = ({
         </MenuButton>
         <MenuList>
           <Button onClick={invertSelection}>Invert selection</Button>
+          <Button onClick={sort}>Sort</Button>
         </MenuList>
       </Menu>
     );
