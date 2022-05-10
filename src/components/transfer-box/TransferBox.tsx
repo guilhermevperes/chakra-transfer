@@ -36,10 +36,16 @@ const TransferBox: React.FC<Props> = ({
   extraActions,
 }) => {
   const [dataToRender, setDataToRender] = useState<BaseData[]>([]);
-  const [allDataToRender, setAllDataToRender] = useState<BaseData[]>([]);
+  const [renderedItems, setRenderedItems] = useState<BaseData[]>([]);
 
   useEffect(() => {
     setDataToRender(data);
+
+    const itemsToTransfer: BaseData[] = dataToRender.filter((item: BaseData) =>
+      transfered ? item.transfered : !item.transfered
+    );
+
+    setRenderedItems(itemsToTransfer);
   }, [data]);
 
   const handleState = (e: any, item: BaseData, i: any) => {
@@ -50,10 +56,11 @@ const TransferBox: React.FC<Props> = ({
     setData(newData);
   };
 
-  const handleItems = () => {
+  const renderItems = () => {
     const itemsToTransfer: BaseData[] = dataToRender.filter((item: BaseData) =>
       transfered ? item.transfered : !item.transfered
     );
+
     return itemsToTransfer.map((item: BaseData, i) => (
       <Box
         key={i}
@@ -197,7 +204,11 @@ const TransferBox: React.FC<Props> = ({
               alignItems="flex-start"
               // ref={getListRef}
             >
-              {handleItems()}
+              {renderedItems.length > 0 ? (
+                renderItems()
+              ) : (
+                <Text>Empty State</Text>
+              )}
             </Box>
           </Stack>
         </Box>
