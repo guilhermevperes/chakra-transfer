@@ -1,4 +1,9 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@chakra-ui/icons";
 import { Box, Button } from "@chakra-ui/react";
 import React, { useState } from "react";
 import BaseData from "../../types/BaseData";
@@ -13,17 +18,26 @@ export type Props = {
 };
 
 const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
-  const handleTransfer = (transfer?: boolean) => {
+  const handleTransfer = (transfer?: boolean, all?: boolean) => {
     let newData: BaseData[] = [...data];
     newData = newData.map((item: BaseData, i) => {
-      if (item.checked && transfer) {
-        item.transfered = true;
-      }
-      if (item.checked && !transfer) {
-        item.transfered = false;
-      }
-      if (!item.checked) {
-        item.checked = false;
+      if (all) {
+        if (transfer) {
+          item.transfered = true;
+        }
+        if (!transfer) {
+          item.transfered = false;
+        }
+      } else {
+        if (item.checked && transfer) {
+          item.transfered = true;
+        }
+        if (item.checked && !transfer) {
+          item.transfered = false;
+        }
+        if (!item.checked) {
+          item.checked = false;
+        }
       }
 
       return item;
@@ -50,11 +64,17 @@ const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
         filter
       ></TransferBox>
       <Box display="flex" flexDirection="column">
+        <Button m="6px" onClick={() => handleTransfer(true, true)}>
+          <ArrowRightIcon></ArrowRightIcon>
+        </Button>
         <Button m="6px" onClick={() => handleTransfer(true)}>
           <ChevronRightIcon></ChevronRightIcon>
         </Button>
         <Button m="6px" onClick={() => handleTransfer()}>
           <ChevronLeftIcon></ChevronLeftIcon>
+        </Button>
+        <Button m="6px" onClick={() => handleTransfer(false, true)}>
+          <ArrowLeftIcon></ArrowLeftIcon>
         </Button>
       </Box>
       <TransferBox
