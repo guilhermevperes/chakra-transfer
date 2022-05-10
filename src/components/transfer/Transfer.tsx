@@ -89,6 +89,7 @@ const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
         setData={setData}
         filter
         extraActions
+        isLoading
       ></TransferBox>
       <Box display="flex" flexDirection="column">
         <Button m="6px" onClick={() => handleTransfer(true, true)}>

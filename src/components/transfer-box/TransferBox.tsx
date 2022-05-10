@@ -10,6 +10,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Skeleton,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -24,6 +25,7 @@ export type Props = {
   filter?: boolean;
   paginated?: boolean;
   extraActions?: boolean;
+  isLoading?: boolean;
 };
 
 const TransferBox: React.FC<Props> = ({
@@ -34,6 +36,7 @@ const TransferBox: React.FC<Props> = ({
   filter,
   paginated,
   extraActions,
+  isLoading,
 }) => {
   const [dataToRender, setDataToRender] = useState<BaseData[]>([]);
   const [renderedItems, setRenderedItems] = useState<BaseData[]>([]);
@@ -54,28 +57,6 @@ const TransferBox: React.FC<Props> = ({
     const index = ids.indexOf(item.id);
     newData[index].checked = e.target.checked;
     setData(newData);
-  };
-
-  const renderItems = () => {
-    const itemsToTransfer: BaseData[] = dataToRender.filter((item: BaseData) =>
-      transfered ? item.transfered : !item.transfered
-    );
-
-    return itemsToTransfer.map((item: BaseData, i) => (
-      <Box
-        key={i}
-        // ref={getItemRef}
-      >
-        <Checkbox
-          defaultIsChecked={item.checked}
-          isChecked={item.checked}
-          onChange={(e) => handleState(e, item, i)}
-          disabled={item.disabled}
-        >
-          {item.label}
-        </Checkbox>
-      </Box>
-    ));
   };
 
   const filterData = (name: string) => {
@@ -129,6 +110,38 @@ const TransferBox: React.FC<Props> = ({
     });
 
     setDataToRender(newData);
+  };
+
+  const renderItems = () => {
+    const itemsToTransfer: BaseData[] = dataToRender.filter((item: BaseData) =>
+      transfered ? item.transfered : !item.transfered
+    );
+
+    return itemsToTransfer.map((item: BaseData, i) => (
+      <Box
+        key={i}
+        // ref={getItemRef}
+      >
+        <Checkbox
+          defaultIsChecked={item.checked}
+          isChecked={item.checked}
+          onChange={(e) => handleState(e, item, i)}
+          disabled={item.disabled}
+        >
+          {item.label}
+        </Checkbox>
+      </Box>
+    ));
+  };
+
+  const renderSkeleton = () => {
+    return (
+      <Stack w="100%">
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+        <Skeleton height="20px" />
+      </Stack>
+    );
   };
 
   const renderInput = () => {
@@ -204,7 +217,9 @@ const TransferBox: React.FC<Props> = ({
               alignItems="flex-start"
               // ref={getListRef}
             >
-              {renderedItems.length > 0 ? (
+              {isLoading ? (
+                renderSkeleton()
+              ) : renderedItems.length > 0 ? (
                 renderItems()
               ) : (
                 <Text>Empty State</Text>
