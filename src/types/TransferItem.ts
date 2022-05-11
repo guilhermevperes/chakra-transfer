@@ -1,5 +1,5 @@
-type BaseData = {
-    id: number;
+type TransferItem = {
+    id: number; //TODO Generate Id
     label: string;
     value: string;
     checked?: boolean;
@@ -7,4 +7,4 @@ type BaseData = {
     disabled?: boolean;
 }
 
-export default BaseData
+export default TransferItem

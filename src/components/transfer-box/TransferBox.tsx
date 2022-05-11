@@ -15,12 +15,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import BaseData from "../../types/BaseData";
+import TransferItem from "../../types/TransferItem";
 
 export type Props = {
-  title: string;
-  data: BaseData[];
-  setData: React.Dispatch<React.SetStateAction<BaseData[]>>;
+  title: string | React.ReactNode;
+  data: TransferItem[];
+  setData: React.Dispatch<React.SetStateAction<TransferItem[]>>;
   transfered?: boolean;
   filter?: boolean;
   paginated?: boolean;
@@ -38,21 +38,21 @@ const TransferBox: React.FC<Props> = ({
   extraActions,
   isLoading,
 }) => {
-  const [dataToRender, setDataToRender] = useState<BaseData[]>([]);
-  const [renderedItems, setRenderedItems] = useState<BaseData[]>([]);
+  const [dataToRender, setDataToRender] = useState<TransferItem[]>([]);
+  const [renderedItems, setRenderedItems] = useState<TransferItem[]>([]);
 
   useEffect(() => {
     setDataToRender(data);
 
-    const itemsToTransfer: BaseData[] = dataToRender.filter((item: BaseData) =>
-      transfered ? item.transfered : !item.transfered
+    const itemsToTransfer: TransferItem[] = dataToRender.filter(
+      (item: TransferItem) => (transfered ? item.transfered : !item.transfered)
     );
 
     setRenderedItems(itemsToTransfer);
   }, [data]);
 
-  const handleState = (e: any, item: BaseData, i: any) => {
-    const newData: BaseData[] = [...data];
+  const handleState = (e: any, item: TransferItem, i: any) => {
+    const newData: TransferItem[] = [...data];
     const ids: number[] = newData.map((data) => data.id);
     const index = ids.indexOf(item.id);
     newData[index].checked = e.target.checked;
@@ -60,17 +60,17 @@ const TransferBox: React.FC<Props> = ({
   };
 
   const filterData = (name: string) => {
-    let newData: BaseData[] = [...data];
+    let newData: TransferItem[] = [...data];
     newData = newData.filter(
-      (item: BaseData) =>
+      (item: TransferItem) =>
         item.label.toLowerCase().search(name.toLowerCase()) !== -1
     );
     setDataToRender(newData);
   };
 
   const selectAll = (e: any) => {
-    let newData: BaseData[] = [...dataToRender];
-    newData = newData.map((item: BaseData) => {
+    let newData: TransferItem[] = [...dataToRender];
+    newData = newData.map((item: TransferItem) => {
       if (!item.disabled) {
         if (transfered && item.transfered) {
           item.checked = e.target.checked;
@@ -85,8 +85,8 @@ const TransferBox: React.FC<Props> = ({
   };
 
   const invertSelection = () => {
-    let newData: BaseData[] = [...dataToRender];
-    newData = newData.map((item: BaseData) => {
+    let newData: TransferItem[] = [...dataToRender];
+    newData = newData.map((item: TransferItem) => {
       if (!item.disabled) {
         item.checked = !item.checked;
       }
@@ -97,9 +97,9 @@ const TransferBox: React.FC<Props> = ({
   };
 
   const sort = () => {
-    let newData: BaseData[] = [...data];
+    let newData: TransferItem[] = [...data];
 
-    newData = newData.sort((a: BaseData, b: BaseData) => {
+    newData = newData.sort((a: TransferItem, b: TransferItem) => {
       if (a.label < b.label) {
         return -1;
       }
@@ -113,16 +113,15 @@ const TransferBox: React.FC<Props> = ({
   };
 
   const renderItems = () => {
-    const itemsToTransfer: BaseData[] = dataToRender.filter((item: BaseData) =>
-      transfered ? item.transfered : !item.transfered
+    const itemsToTransfer: TransferItem[] = dataToRender.filter(
+      (item: TransferItem) => (transfered ? item.transfered : !item.transfered)
     );
 
-    return itemsToTransfer.map((item: BaseData, i) => (
+    return itemsToTransfer.map((item: TransferItem, i) => (
       <Box
         key={i}
         // ref={getItemRef}
         w="100%"
-        h="45px"
         padding="12px"
         border="1px solid"
         borderColor="gray.400"
@@ -135,7 +134,6 @@ const TransferBox: React.FC<Props> = ({
           onChange={(e) => handleState(e, item, i)}
           disabled={item.disabled}
           w="100%"
-          h="100%"
           color="gray.800"
         >
           {item.label}
@@ -156,12 +154,14 @@ const TransferBox: React.FC<Props> = ({
 
   const renderInput = () => {
     return (
-      <InputGroup>
+      <InputGroup h="32px">
         <InputLeftElement
+          h="32px"
           pointerEvents="none"
           children={<SearchIcon color="gray.300" />}
         />
         <Input
+          h="32px"
           placeholder="Search"
           onChange={(e) => filterData(e.target.value)}
         ></Input>
@@ -186,71 +186,61 @@ const TransferBox: React.FC<Props> = ({
   return (
     <Box
       d="flex"
-      minWidth="90px"
-      border="1px solid black"
+      w="320px"
+      border="1px solid"
       display="flex"
       flexDirection="column"
       alignItems="center"
-      h="100%"
-      overflow="hidden"
-      flex="0.4"
+      minH="320px"
+      borderRadius="4px"
+      borderColor="gray.300"
     >
       <Box
-        d="flex"
-        border="1px solid black"
         display="flex"
-        flexDirection="column"
+        w="100%"
+        h="46px"
+        borderBottom="1px solid"
+        paddingLeft="30px"
+        paddingRight="30px"
+        borderBottomColor="gray.300"
         alignItems="center"
-        h="100%"
-        p="4px"
-        overflow="hidden"
+        position="relative"
+        justifyContent="center"
       >
-        {title && <Text>{title}</Text>}
-        <Box
+        <Checkbox
+          onChange={selectAll}
+          position="absolute"
+          top="15px"
+          left="16px"
+        />
+        {title && (
+          <Text fontSize="20px" color="gray.400">
+            {title}
+          </Text>
+        )}
+      </Box>
+
+      <Stack spacing={6} h="80%" w="100%" padding="10px">
+        {filter && renderInput()}
+        {/* {extraActions && renderExtraOptions()} */}
+        <Stack
+          // overflowY="auto"
           w="100%"
           h="100%"
           display="flex"
           flexDirection="column"
           alignItems="flex-start"
-          p="6px"
+          // ref={getListRef}
         >
-          <Stack spacing={3} overflow="hidden" height="100%">
-            <Checkbox onChange={selectAll}>Select All</Checkbox>
-            {filter && renderInput()}
-            {extraActions && renderExtraOptions()}
-            <Stack
-              overflowY="auto"
-              w="100%"
-              h="100%"
-              display="flex"
-              flexDirection="column"
-              alignItems="flex-start"
-              // ref={getListRef}
-            >
-              {isLoading ? (
-                renderSkeleton()
-              ) : renderedItems.length > 0 ? (
-                renderItems()
-              ) : (
-                <Text>Empty State</Text>
-              )}
-            </Stack>
-          </Stack>
-        </Box>
-      </Box>
-      {/* {paginated && (
-        <Box>
-        <ChevronLeftIcon
-        onClick={() => setCurrentPage(currentPage - 1)}
-        cursor="pointer"
-        ></ChevronLeftIcon>
-        {currentPage}/{totalPages}
-        <ChevronRightIcon
-        onClick={() => setCurrentPage(currentPage + 1)}
-        cursor="pointer"
-        ></ChevronRightIcon>
-        </Box>
-      )} */}
+          {isLoading ? (
+            renderSkeleton()
+          ) : renderedItems.length > 0 ? (
+            renderItems()
+          ) : (
+            <Text>Empty State</Text>
+          )}
+        </Stack>
+      </Stack>
     </Box>
   );
 };
@@ -275,7 +265,7 @@ export default TransferBox;
 // useEffect(() => {
 //   if (paginated && itemHeight > 0) {
 //     setAllDataToRender(dataToRender);
-//     let newData: BaseData[] = dataToRender.filter((item: BaseData) =>
+//     let newData: TransferItem[] = dataToRender.filter((item: TransferItem) =>
 //       transfered ? item.transfered : !item.transfered
 //     );
 //     setTotalPages(
@@ -287,3 +277,22 @@ export default TransferBox;
 //     console.log("listHeight :>> ", Math.floor(listHeight / itemHeight) - 1);
 //   }
 // }, [listHeight, currentPage]);
+
+{
+  /* </Box> */
+}
+{
+  /* {paginated && (
+        <Box>
+        <ChevronLeftIcon
+        onClick={() => setCurrentPage(currentPage - 1)}
+        cursor="pointer"
+        ></ChevronLeftIcon>
+        {currentPage}/{totalPages}
+        <ChevronRightIcon
+        onClick={() => setCurrentPage(currentPage + 1)}
+        cursor="pointer"
+        ></ChevronRightIcon>
+        </Box>
+      )} */
+}

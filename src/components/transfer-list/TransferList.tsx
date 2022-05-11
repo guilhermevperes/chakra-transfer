@@ -1,17 +1,17 @@
 // import { Box, Checkbox } from "@chakra-ui/react";
 // import React from "react";
-// import BaseData from "../../types/BaseData";
+// import TransferItem from "../../types/TransferItem";
 
 // export type Props = {
-//   data: BaseData[];
-//   setData: React.Dispatch<React.SetStateAction<BaseData[]>>;
+//   data: TransferItem[];
+//   setData: React.Dispatch<React.SetStateAction<TransferItem[]>>;
 //   ref: React.LegacyRef<HTMLDivElement>;
 //   transfered?: boolean;
 // };
 
 // const TransferList: React.FC<Props> = ({ data, setData, transfered, ref }) => {
-//   const handleState = (e: any, item: BaseData, i: any) => {
-//     const newData: BaseData[] = [...data];
+//   const handleState = (e: any, item: TransferItem, i: any) => {
+//     const newData: TransferItem[] = [...data];
 //     const ids: number[] = newData.map((data) => data.id);
 //     const index = ids.indexOf(item.id);
 //     newData[index].checked = e.target.checked;
@@ -19,10 +19,10 @@
 //   };
 
 //   const renderItems = () => {
-//     const itemsToTransfer: BaseData[] = data.filter((item: BaseData) =>
+//     const itemsToTransfer: TransferItem[] = data.filter((item: TransferItem) =>
 //       transfered ? item.transfered : !item.transfered
 //     );
-//     return itemsToTransfer.map((item: BaseData, i) => (
+//     return itemsToTransfer.map((item: TransferItem, i) => (
 //       <Box key={i}>
 //         <Checkbox
 //           defaultIsChecked={item.checked}

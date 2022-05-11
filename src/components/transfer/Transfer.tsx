@@ -6,18 +6,46 @@ import {
 } from "@chakra-ui/icons";
 import { Box, Button, Switch, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import BaseData from "../../types/BaseData";
+import TransferItem from "../../types/TransferItem";
 import TransferBox from "../transfer-box/TransferBox";
 
 export type Props = {
-  data: BaseData[];
-  setData: React.Dispatch<React.SetStateAction<BaseData[]>>;
-  title1: string;
-  title2: string;
-  maxW: string;
+  data: TransferItem[];
+  setData: React.Dispatch<React.SetStateAction<TransferItem[]>>;
+  titleLeft?: string | React.ReactNode;
+  titleRight?: string | React.ReactNode;
+  hasSearch?: boolean;
+  hasPagination?: {
+    pageSize: number;
+  };
+  hasDraggable?: boolean;
+  hasSelectAll?: boolean;
+  hasEditItem?: boolean;
+  hasNewItem?: boolean;
+  hasDeleteItem?: boolean;
+  colorMode?: "light" | "dark";
+  hasActions?: {
+    sort: boolean;
+    invertSelection: boolean;
+    selectAll: boolean;
+  };
+  colorScheme?: string;
+  hasUndo?: boolean;
+  hasError?: boolean;
+  hasWarning?: boolean;
+  height?: number;
+  hasCollapsable?: boolean;
+  isLoading?: boolean;
+  language?: string;
+  emptyMessage?: string | React.ReactNode;
 };
 
-const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
+const Transfer: React.FC<Props> = ({
+  data,
+  setData,
+  titleLeft,
+  titleRight,
+}) => {
   const [disabled, setDisabled] = useState<boolean>(false);
   const [firstDisable, setFirstDisable] = useState<boolean>(false);
 
@@ -28,17 +56,17 @@ const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
 
   useEffect(() => {
     setTransferButtonDisabled(
-      !data.find((item: BaseData) => !item.transfered && item.checked)
+      !data.find((item: TransferItem) => !item.transfered && item.checked)
     );
     setUnTransferButtonDisabled(
-      !data.find((item: BaseData) => item.transfered && item.checked)
+      !data.find((item: TransferItem) => item.transfered && item.checked)
     );
   }, [data]);
 
   useEffect(() => {
-    let newData: BaseData[] = [...data];
+    let newData: TransferItem[] = [...data];
     if (firstDisable) {
-      newData = newData.map((item: BaseData) => {
+      newData = newData.map((item: TransferItem) => {
         item.disabled = disabled;
 
         return item;
@@ -48,8 +76,8 @@ const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
   }, [disabled]);
 
   const handleTransfer = (transfer?: boolean, all?: boolean) => {
-    let newData: BaseData[] = [...data];
-    newData = newData.map((item: BaseData, i) => {
+    let newData: TransferItem[] = [...data];
+    newData = newData.map((item: TransferItem, i) => {
       if (all) {
         if (transfer) {
           item.transfered = true;
@@ -79,15 +107,13 @@ const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
       d="flex"
       justifyContent="space-around"
       minWidth="600px"
-      h="400px"
-      border="1px solid black"
-      alignItems="center"
+      h="auto"
+      alignItems="flex-start"
       pt="10px"
       pb="10px"
-      maxW={maxW}
     >
       <TransferBox
-        title={title1}
+        title={titleLeft}
         data={data}
         setData={setData}
         filter
@@ -117,13 +143,13 @@ const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
         </Button>
       </Box>
       <TransferBox
-        title={title2}
+        title={titleRight}
         data={data}
         setData={setData}
         transfered
         filter
       ></TransferBox>
-      <Box>
+      {/* <Box>
         <Text>Disabled all</Text>
         <Switch
           id="email-alerts"
@@ -132,7 +158,7 @@ const Transfer: React.FC<Props> = ({ data, setData, title1, title2, maxW }) => {
             setFirstDisable(true);
           }}
         />
-      </Box>
+      </Box> */}
     </Box>
   );
 };

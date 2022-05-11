@@ -2,12 +2,12 @@ import { Box } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import DarkModeSwitch from "./components/dark-mode-switch/DarkModeSwitch";
 import Transfer from "./components/transfer/Transfer";
-import BaseData from "./types/BaseData";
+import TransferItem from "./types/TransferItem";
 
 export type Props = {};
 
 const App: React.FC<Props> = ({}) => {
-  const [data, setData] = useState<BaseData[]>([
+  const [data, setData] = useState<TransferItem[]>([
     {
       id: 1,
       label: "Chocolate",
@@ -110,11 +110,10 @@ const App: React.FC<Props> = ({}) => {
       <Transfer
         data={data}
         setData={setData}
-        title1="Não selecionado"
-        title2="Selecionado"
-        maxW="800px"
+        titleLeft="Title"
+        titleRight="Selecionado"
       ></Transfer>
-      <DarkModeSwitch></DarkModeSwitch>
+      {/* <DarkModeSwitch></DarkModeSwitch> */}
     </>
   );
 };
