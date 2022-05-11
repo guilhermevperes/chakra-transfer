@@ -113,6 +113,7 @@ const App: React.FC<Props> = ({}) => {
         titleLeft="Title"
         titleRight="Selecionado"
         height={320}
+        hasSearch
       ></Transfer>
       {/* <DarkModeSwitch></DarkModeSwitch> */}
     </>

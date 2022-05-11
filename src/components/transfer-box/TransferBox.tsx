@@ -22,7 +22,7 @@ export type Props = {
   data: TransferItem[];
   setData: React.Dispatch<React.SetStateAction<TransferItem[]>>;
   transfered?: boolean;
-  filter?: boolean;
+  hasSearch?: boolean;
   paginated?: boolean;
   extraActions?: boolean;
   isLoading?: boolean;
@@ -34,7 +34,7 @@ const TransferBox: React.FC<Props> = ({
   data,
   setData,
   transfered,
-  filter,
+  hasSearch,
   paginated,
   extraActions,
   isLoading,
@@ -224,7 +224,7 @@ const TransferBox: React.FC<Props> = ({
       </Box>
 
       <Stack spacing={6} h="80%" w="100%" padding="10px">
-        {filter && renderInput()}
+        {hasSearch && renderInput()}
         {/* {extraActions && renderExtraOptions()} */}
         <Stack
           // overflowY="auto"

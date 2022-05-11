@@ -4,9 +4,10 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
-import { Box, Button, Switch, Text } from "@chakra-ui/react";
+import { Box, Button, Stack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import TransferItem from "../../types/TransferItem";
+import IconButton from "../icon-button/IconButton";
 import TransferBox from "../transfer-box/TransferBox";
 
 export type Props = {
@@ -15,9 +16,7 @@ export type Props = {
   titleLeft?: string | React.ReactNode;
   titleRight?: string | React.ReactNode;
   hasSearch?: boolean;
-  hasPagination?: {
-    pageSize: number;
-  };
+  pagination?: string;
   hasDraggable?: boolean;
   hasSelectAll?: boolean;
   hasEditItem?: boolean;
@@ -46,6 +45,7 @@ const Transfer: React.FC<Props> = ({
   titleLeft,
   titleRight,
   height,
+  hasSearch,
 }) => {
   const [disabled, setDisabled] = useState<boolean>(false);
   const [firstDisable, setFirstDisable] = useState<boolean>(false);
@@ -54,6 +54,10 @@ const Transfer: React.FC<Props> = ({
     useState<boolean>(true);
   const [unTransferButtonDisabled, setUnTransferButtonDisabled] =
     useState<boolean>(true);
+  const [transferAllButtonDisabled, setTransferAllButtonDisabled] =
+    useState<boolean>(true);
+  const [unTransferAllButtonDisabled, setUnTransferAllButtonDisabled] =
+    useState<boolean>(true);
 
   useEffect(() => {
     setTransferButtonDisabled(
@@ -61,6 +65,12 @@ const Transfer: React.FC<Props> = ({
     );
     setUnTransferButtonDisabled(
       !data.find((item: TransferItem) => item.transfered && item.checked)
+    );
+    setTransferAllButtonDisabled(
+      !data.find((item: TransferItem) => !item.transfered)
+    );
+    setUnTransferAllButtonDisabled(
+      !data.find((item: TransferItem) => item.transfered)
     );
   }, [data]);
 
@@ -109,7 +119,7 @@ const Transfer: React.FC<Props> = ({
       justifyContent="space-around"
       minWidth="600px"
       h="auto"
-      alignItems="flex-start"
+      alignItems="center"
       pt="10px"
       pb="10px"
     >
@@ -117,39 +127,43 @@ const Transfer: React.FC<Props> = ({
         title={titleLeft}
         data={data}
         setData={setData}
-        filter
+        hasSearch={hasSearch}
         extraActions
         height={height}
         // isLoading
       ></TransferBox>
-      <Box display="flex" flexDirection="column">
-        <Button m="6px" onClick={() => handleTransfer(true, true)}>
-          <ArrowRightIcon></ArrowRightIcon>
-        </Button>
-        <Button
-          m="6px"
+      <Stack spacing={4} display="flex" flexDirection="column">
+        <IconButton
+          Icon={ArrowRightIcon}
+          onClick={() => handleTransfer(true, true)}
+          boxSize={3}
+          isDisabled={transferAllButtonDisabled}
+        ></IconButton>
+        <IconButton
+          Icon={ChevronRightIcon}
           onClick={() => handleTransfer(true)}
+          boxSize={6}
           isDisabled={transferButtonDisabled}
-        >
-          <ChevronRightIcon></ChevronRightIcon>
-        </Button>
-        <Button
-          m="6px"
+        ></IconButton>
+        <IconButton
+          Icon={ChevronLeftIcon}
           onClick={() => handleTransfer()}
+          boxSize={6}
           isDisabled={unTransferButtonDisabled}
-        >
-          <ChevronLeftIcon></ChevronLeftIcon>
-        </Button>
-        <Button m="6px" onClick={() => handleTransfer(false, true)}>
-          <ArrowLeftIcon></ArrowLeftIcon>
-        </Button>
-      </Box>
+        ></IconButton>
+        <IconButton
+          Icon={ArrowLeftIcon}
+          onClick={() => handleTransfer(false, true)}
+          boxSize={3}
+          isDisabled={unTransferAllButtonDisabled}
+        ></IconButton>
+      </Stack>
       <TransferBox
         title={titleRight}
         data={data}
         setData={setData}
         transfered
-        filter
+        hasSearch={hasSearch}
         height={height}
       ></TransferBox>
       {/* <Box>
