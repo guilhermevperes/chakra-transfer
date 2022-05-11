@@ -112,6 +112,7 @@ const App: React.FC<Props> = ({}) => {
         setData={setData}
         titleLeft="Title"
         titleRight="Selecionado"
+        height={320}
       ></Transfer>
       {/* <DarkModeSwitch></DarkModeSwitch> */}
     </>

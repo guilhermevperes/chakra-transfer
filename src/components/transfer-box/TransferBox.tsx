@@ -26,6 +26,7 @@ export type Props = {
   paginated?: boolean;
   extraActions?: boolean;
   isLoading?: boolean;
+  height?: number;
 };
 
 const TransferBox: React.FC<Props> = ({
@@ -37,6 +38,7 @@ const TransferBox: React.FC<Props> = ({
   paginated,
   extraActions,
   isLoading,
+  height,
 }) => {
   const [dataToRender, setDataToRender] = useState<TransferItem[]>([]);
   const [renderedItems, setRenderedItems] = useState<TransferItem[]>([]);
@@ -194,6 +196,7 @@ const TransferBox: React.FC<Props> = ({
       minH="320px"
       borderRadius="4px"
       borderColor="gray.300"
+      h={height ? height : "auto"}
     >
       <Box
         display="flex"
@@ -231,6 +234,7 @@ const TransferBox: React.FC<Props> = ({
           flexDirection="column"
           alignItems="flex-start"
           // ref={getListRef}
+          overflow={height ? "auto" : "visible"}
         >
           {isLoading ? (
             renderSkeleton()

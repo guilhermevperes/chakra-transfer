@@ -45,6 +45,7 @@ const Transfer: React.FC<Props> = ({
   setData,
   titleLeft,
   titleRight,
+  height,
 }) => {
   const [disabled, setDisabled] = useState<boolean>(false);
   const [firstDisable, setFirstDisable] = useState<boolean>(false);
@@ -118,6 +119,7 @@ const Transfer: React.FC<Props> = ({
         setData={setData}
         filter
         extraActions
+        height={height}
         // isLoading
       ></TransferBox>
       <Box display="flex" flexDirection="column">
@@ -148,6 +150,7 @@ const Transfer: React.FC<Props> = ({
         setData={setData}
         transfered
         filter
+        height={height}
       ></TransferBox>
       {/* <Box>
         <Text>Disabled all</Text>
